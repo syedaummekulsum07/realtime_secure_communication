@@ -42,7 +42,6 @@ PORT=3000
 npm run dev
 
 Server runs on: http://localhost:3000
-```
 
 **📋 Complete API Endpoints
 
