@@ -42,10 +42,11 @@ PORT=3000
 npm run dev
 
 Server runs on: http://localhost:3000
+```
 
-📋 Complete API Endpoints
-🔐 Authentication (3-Step Flow)
+**📋 Complete API Endpoints
 
+##🔐 Authentication 
 The authentication module consists of a three-step process.
 First, users can register using the POST /api/auth/signup endpoint by providing their email and password. Upon successful signup, an OTP is generated and sent to the user’s email address, and the response confirms that the OTP has been sent.
 
@@ -53,8 +54,7 @@ Next, users verify their account using the POST /api/auth/verify-otp/:email/:otp
 
 Finally, verified users can log in using the POST /api/auth/signin endpoint by submitting their email and password. On successful authentication, the server returns a JWT access token and a refresh token, which are used to access protected routes.
 
-💬 Messages CRUD
-
+##💬 Messages CRUD
 The messaging system allows authenticated users to perform full CRUD operations on messages.
 Users can create a new message using POST /api/messages, passing a valid JWT in the Authorization header along with the receiver ID, message content, and an optional file URL. The server responds with the created message and immediately broadcasts it in real time to the receiver via Socket.IO.
 
@@ -65,14 +65,13 @@ Messages can also be deleted using DELETE /api/messages/:id, which performs a so
 
 All message routes require a valid JWT access token in the Authorization header.
 
-📎 File Upload
-
+##📎 File Upload
 File uploads are handled via the POST /api/files/upload endpoint. Authenticated users can upload a single file (such as an image or PDF) using multipart/form-data. Upon successful upload, the API responds with the file’s URL path.
 
 Uploaded files are served statically and can be accessed directly using:
 http://localhost:3000/uploads/filename.jpg
-🗝️ JWT + Refresh Token Flow
 
+🗝️ JWT + Refresh Token Flow
 1. SIGNUP → Email OTP (Redis TTL: 5min)
 2. VERIFY OTP → User verified + Access(15min) + Refresh(7days)
 3. SIGNIN → Same tokens issued
@@ -99,16 +98,10 @@ File: Multer + Static serving
 Validation: Joi schemas
 
 🚀 Running the Project
-# Development (nodemon)
-npm run dev
 
-# Production
 npm start
 
-# Postman Collection
-Import "realtime_chat" collection from workspace
-
-🔍 Database Schema
+##🔍 Database Schema
 User:
 {
   _id: ObjectId,
@@ -129,7 +122,7 @@ Message:
   createdAt: Date
 }
 
-🎯 Success Metrics Achieved
+##🎯 Success Metrics Achieved
 
 ✅ 100% REST API coverage
 ✅ Real-time Socket.IO working
