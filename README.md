@@ -14,7 +14,7 @@
 ## 🛠️ Quick Setup (2 Minutes)
 
 ### 1. Clone & Install
-```bash
+``bash
 git clone <your-repo-url>
 cd chat-api
 npm install
@@ -27,7 +27,7 @@ MONGO_URI=mongodb://localhost:27017/chatapp
 # JWT
 JWT_SECRET=your-super-secret-jwt-key-min-32-chars-long
 
-# Redis (optional)
+# Redis 
 REDIS_URL=redis://localhost:6379
 
 # Email (for OTP)
@@ -39,7 +39,7 @@ PORT=3000
 
 3. Start Server
 
-npm run dev
+npm start
 
 Server runs on: http://localhost:3000
 
@@ -70,23 +70,21 @@ File uploads are handled via the POST /api/files/upload endpoint. Authenticated 
 Uploaded files are served statically and can be accessed directly using:
 http://localhost:3000/uploads/filename.jpg
 
-🗝️ JWT + Refresh Token Flow
+**🗝️ JWT + Refresh Token Flow
 1. SIGNUP → Email OTP (Redis TTL: 5min)
 2. VERIFY OTP → User verified + Access(15min) + Refresh(7days)
 3. SIGNIN → Same tokens issued
 4. REFRESH → POST /api/auth/refresh → New access token
 5. All protected routes → Authorization: Bearer <access_token>
 
-🔴 Redis Key Structure
-
+**🔴 Redis Key Structure
 OTP Storage:
 user:{email}:otp → "123456" (TTL: 300s)
 
 Refresh Token Sessions:
 session:{userId}:{jti} → "refresh_token_string" (TTL: 7days)
 
-🛠️ Technology Stack
-
+**🛠️ Technology Stack
 Backend: Node.js + Express.js
 Database: MongoDB + Mongoose (ObjectId refs)
 Real-time: Socket.IO (JWT auth middleware)
@@ -100,7 +98,7 @@ Validation: Joi schemas
 
 npm start
 
-##🔍 Database Schema
+###🔍 Database Schema
 User:
 {
   _id: ObjectId,
