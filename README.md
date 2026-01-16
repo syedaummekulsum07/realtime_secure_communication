@@ -44,31 +44,33 @@ npm run dev
 Server runs on: http://localhost:3000
 
 📋 Complete API Endpoints
-🔐 Authentication (3 Steps)
+🔐 Authentication (3-Step Flow)
 
-| Method | Endpoint | Headers | Request Body | Response |
-|--------|----------|---------|--------------|----------|
-| `POST` | `/api/auth/signup` | `-` | `{"email": "user@gmail.com", "password": "123456"}` | `{"otpSent": true, "message": "OTP sent to email"}` |
-| `POST` | `/api/auth/verify-otp/:email/:otp` | `-` | `-` | `{"user": {...}, "accessToken": "jwt...", "refreshToken": "jwt..."}` |
-| `POST` | `/api/auth/signin` | `-` | `{"email": "user@gmail.com", "password": "123456"}` | `{"accessToken": "jwt...", "refreshToken": "jwt..."}` |
+The authentication module consists of a three-step process.
+First, users can register using the POST /api/auth/signup endpoint by providing their email and password. Upon successful signup, an OTP is generated and sent to the user’s email address, and the response confirms that the OTP has been sent.
+
+Next, users verify their account using the POST /api/auth/verify-otp/:email/:otp endpoint. This endpoint validates the OTP, marks the user as verified, and returns the authenticated user object along with an access token and a refresh token.
+
+Finally, verified users can log in using the POST /api/auth/signin endpoint by submitting their email and password. On successful authentication, the server returns a JWT access token and a refresh token, which are used to access protected routes.
 
 💬 Messages CRUD
 
-| Method | Endpoint | Headers | Request Body | Response |
-|--------|----------|---------|--------------|----------|
-| `POST` | `/api/messages` | `Authorization: Bearer <jwt>` | `{"receiverId": "user2_id", "content": "Hello!", "fileUrl": "/uploads/img.jpg"}` | `201: {"message": {...}}` |
-| `GET` | `/api/messages/:userId` | `Authorization: Bearer <jwt>` | `-` | `200: [{"_id": "...", "content": "Hello!", "senderId": {...}, "receiverId": {...}}]` |
-| `PUT` | `/api/messages/:id` | `Authorization: Bearer <jwt>` | `{"content": "Updated message"}` | `200: {"message": {...}}` |
-| `DELETE` | `/api/messages/:id` | `Authorization: Bearer <jwt>` | `-` | `200: {"deleted": true}` |
+The messaging system allows authenticated users to perform full CRUD operations on messages.
+Users can create a new message using POST /api/messages, passing a valid JWT in the Authorization header along with the receiver ID, message content, and an optional file URL. The server responds with the created message and immediately broadcasts it in real time to the receiver via Socket.IO.
+
+To retrieve chat history, users can call GET /api/messages/:userId, which returns all non-deleted messages exchanged between the logged-in user and the specified user.
+
+Messages can be edited using PUT /api/messages/:id, where only the original sender is allowed to update the message content.
+Messages can also be deleted using DELETE /api/messages/:id, which performs a soft delete by marking the message as deleted rather than removing it from the database.
+
+All message routes require a valid JWT access token in the Authorization header.
 
 📎 File Upload
 
-| Method | Endpoint | Headers | Request Body | Response |
-|--------|----------|---------|--------------|----------|
-| `POST` | `/api/files/upload` | `Authorization: Bearer <jwt>` | **form-data:** `file: (select image.jpg)` | `200: {"fileUrl": "/uploads/1678901234567.jpg"}` |
+File uploads are handled via the POST /api/files/upload endpoint. Authenticated users can upload a single file (such as an image or PDF) using multipart/form-data. Upon successful upload, the API responds with the file’s URL path.
 
-**File Access:** `http://localhost:3000/uploads/filename.jpg`
-
+Uploaded files are served statically and can be accessed directly using:
+http://localhost:3000/uploads/filename.jpg
 🗝️ JWT + Refresh Token Flow
 
 1. SIGNUP → Email OTP (Redis TTL: 5min)
