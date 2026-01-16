@@ -71,6 +71,7 @@ Uploaded files are served statically and can be accessed directly using:
 http://localhost:3000/uploads/filename.jpg
 
 **🗝️ JWT + Refresh Token Flow
+
 1. SIGNUP → Email OTP (Redis TTL: 5min)
 2. VERIFY OTP → User verified + Access(15min) + Refresh(7days)
 3. SIGNIN → Same tokens issued
@@ -78,6 +79,7 @@ http://localhost:3000/uploads/filename.jpg
 5. All protected routes → Authorization: Bearer <access_token>
 
 **🔴 Redis Key Structure
+
 OTP Storage:
 user:{email}:otp → "123456" (TTL: 300s)
 
@@ -85,20 +87,21 @@ Refresh Token Sessions:
 session:{userId}:{jti} → "refresh_token_string" (TTL: 7days)
 
 **🛠️ Technology Stack
+
 Backend: Node.js + Express.js
-Database: MongoDB + Mongoose (ObjectId refs)
+Database: MongoDB + Mongoose 
 Real-time: Socket.IO (JWT auth middleware)
 Cache: Redis (OTP + Sessions)
 Email: Nodemailer (Gmail SMTP)
 Auth: JWT (access:15m, refresh:7d)
 File: Multer + Static serving
-Validation: Joi schemas
 
 🚀 Running the Project
 
 npm start
 
-###🔍 Database Schema
+**🔍 Database Schema
+
 User:
 {
   _id: ObjectId,
